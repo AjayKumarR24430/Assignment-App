@@ -1,0 +1,63 @@
+{
+    "users": [
+        {
+            "userId": "y7tgyvgi7f7dtyufioiygifytuhio8",
+            "name": "adityu",
+            "ageGroup": "1-5",
+            "desc": "i am a aboy",
+            "email": "adity@mn.in",
+            "profilePicUri": {
+                "uri":  "http://gogoe.omc/adjhajkda.jpg"
+            },
+            "quizResponses": [
+                {
+                    "quizId": "3242rewtgdfb",
+                    "responses": [
+                        {
+                            "questionId": "jihugyftughiugyu",
+                            "question": "question.question",
+                            "answeredOptionId": "7t6rfuyghkg765tfuyig",
+                            "answeredOption": "option.option",
+                            "isCorrect": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+
+    "quizTypes": [
+        "Maths Quiz", "Science Quiz", "History Quiz", "Social Science", "Hindi Quiz", "English Quiz", "Sports Quiz", "Tech Quiz", "Arts Quiz", "General Quiz"
+    ],
+
+    "quizes": [
+        {
+            "quizId": "3242rewtgdfb",
+            "createdByUserId": "y7tgyvgi7f7dtyufioiygifytuhio8",
+            "quizName": "tell me about urself?",
+            "quizImgUri":{
+                "uri":  "http://gogoe.omc/adjhajkda.jpg"
+            },
+            "quizType": "Maths Quiz",
+            "quizDesc": "this is a mast quiz",
+            "questions": [
+                {
+                    "questionId": "jihugyftughiugyu",
+                    "question": "what is ur name?",
+                    "options": [
+                        {
+                            "optionId": "7t6rfuyghkg765tfuyig",
+                            "option": "khan",
+                            "isAns": false
+                        },
+                        {
+                            "optionId": "7t6rfuyghkg765tfuyig",
+                            "option": "singh",
+                            "isAns": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]   
+}
