@@ -24,7 +24,8 @@ export default function GiveQuiz({ route: {
 
     const [isLoading, setIsLoading] = useState(true);
     const [typedAnswer, updateAns] = useState("");
-    const [correctAns, setcorrectAns] = useState();
+    const [bool, setValue] = useState(false);
+    const [CorrectAns, setCorrect] = useState("");
 
     useEffect(() => {
         if (questions) {
@@ -42,33 +43,18 @@ export default function GiveQuiz({ route: {
         }
     }, []);
 
-    //function to handle when any option is clicked clicked on
-    function handleOptionPressed(idx, option, question) {
-        if (idx != null) {
-            //checking if that qstn is already answered
-            //if already answered then not selecteding the option
-            const questionId = question["questionId"];
-            if (!qstnResponses[questionId]) {
-
-                //storing response in state
-                let tempQstnResponses = qstnResponses;
-                tempQstnResponses[questionId] = {
-                    "questionId": questionId,
-                    "question": question.question,
-                    "answerId": answer.answerId,
-                    "answered": answer.answer,
-                    "isCorrect": answer.isAns,
-                };
-                setQstnResponses(tempQstnResponses);
-            }
-        }
-    }
-
     //function to rdner question
     function renderQuestion() {
         if (questions) {
             const selectedQuestion = quizQsnts[activeQstnIdx] || {};
             const answer = selectedQuestion.answer || [];
+
+            function correctAnswer(){
+                console.log("Answer check")
+                console.log("Answer is ", answer[0]['answer'])
+                setCorrect(answer[0]['answer'])
+                setValue(true)
+            }
 
             //rendering
             return (
@@ -91,6 +77,12 @@ export default function GiveQuiz({ route: {
                         onPress={() => correctAnswer()}
                         />  
                     </View>
+                    <View>
+                        {
+                            bool &&
+                            <Text style={{marginTop: 20, marginBottom: 20}}>Correct Answer is: {CorrectAns}</Text>                         
+                        }
+                    </View>
 
                     <View style={[styles.container, styles.btnsContainer]}>
                         {renderDirectionButtons()}
@@ -100,18 +92,6 @@ export default function GiveQuiz({ route: {
         }
     }
 
-    
-    function correctAnswer(){
-        console.log("Answer check")
-        return(
-            <View>
-                <Text>
-                    Correct Answer is 
-                    
-                </Text>
-            </View>
-        )
-    }
 
     //function to render direction buttons
     function renderDirectionButtons() {
@@ -166,12 +146,16 @@ export default function GiveQuiz({ route: {
 
     //function to handle next/prev btn click
     function hanldePrevBtnClick() {
+        setCorrect("");
+        setValue(false);
         if (activeQstnIdx > 0) {
             setActiveQstnIdx(activeQstnIdx - 1);
         }
     }
 
     function hanldeNextBtnClick() {
+        setCorrect("");
+        setValue(false);
         if (activeQstnIdx < totalQstnsCount - 1) {
             setActiveQstnIdx(activeQstnIdx + 1);
         }
