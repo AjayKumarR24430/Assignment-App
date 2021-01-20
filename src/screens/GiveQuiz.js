@@ -47,12 +47,18 @@ export default function GiveQuiz({ route: {
     function renderQuestion() {
         if (questions) {
             const selectedQuestion = quizQsnts[activeQstnIdx] || {};
-            const answer = selectedQuestion.answer || [];
+            const answer = selectedQuestion.answer || selectedQuestion["options"][0];
 
             function correctAnswer(){
                 console.log("Answer check")
+                if(selectedQuestion.answer){
                 console.log("Answer is ", answer[0]['answer'])
                 setCorrect(answer[0]['answer'])
+                }
+                else{
+                    console.log("Answer is ", answer["option"])
+                    setCorrect(answer['option'])
+                }
                 setValue(true)
             }
 
