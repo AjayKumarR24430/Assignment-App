@@ -145,7 +145,7 @@ export default function CreateQuiz({ navigation }) {
         const timeStamp = Math.floor(Date.now() / 1000);
         const insertKey = createdByUserId + "_" + timeStamp;
 
-        const quizesDbRef = firebase.app().database().ref('quizes/');
+        const quizesDbRef = firebase.app().database().ref('assignmentquizes/');
         quizesDbRef
             .child(insertKey)
             .set({

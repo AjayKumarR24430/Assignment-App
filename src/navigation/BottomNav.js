@@ -5,7 +5,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import HomeStack from './HomeStack';
 import MyQuizStack from './MyQuizStack';
 import Profile from '../screens/Profile';
-import Discussion from '../screens/Discussion'
 
 const Tab = createBottomTabNavigator();
 
@@ -31,17 +30,6 @@ export default function BottomNav() {
                     tabBarColor: '#1f65ff',
                     tabBarIcon: ({ color }) => (
                         <Icon name="ios-document" color={color} size={26} />
-                    ),
-                }}
-            />
-            <Tab.Screen
-                name="Discussion"
-                component={Discussion}
-                options={{
-                    tabBarLabel: 'Discussion',
-                    tabBarColor: '#1f65ff',
-                    tabBarIcon: ({ color }) => (
-                        <Icon name="ios-chatboxes" color={color} size={26} />
                     ),
                 }}
             />

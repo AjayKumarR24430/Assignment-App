@@ -27,7 +27,7 @@ export default function AddQuizQstn({ route: {
             console.log(qstnId);
 
             //adding qstn for that quiz in firebase
-            const quizDbRef = firebase.app().database().ref('quizes/');
+            const quizDbRef = firebase.app().database().ref('assignmentquizes/');
             quizDbRef
                 .child(quizId + "/questions/" + qstnId)
                 .set({

@@ -47,7 +47,7 @@ export default function GiveQuiz({ route: {
     function renderQuestion() {
         if (questions) {
             const selectedQuestion = quizQsnts[activeQstnIdx] || {};
-            const answer = selectedQuestion.answer || selectedQuestion["options"][0];
+            const answer = selectedQuestion.answer || '';
 
             function correctAnswer(){
                 console.log("Answer check")
@@ -56,8 +56,7 @@ export default function GiveQuiz({ route: {
                 setCorrect(answer[0]['answer'])
                 }
                 else{
-                    console.log("Answer is ", answer["option"])
-                    setCorrect(answer['option'])
+                    console.log("Answer is empty ")
                 }
                 setValue(true)
             }
@@ -128,7 +127,7 @@ export default function GiveQuiz({ route: {
             setIsLoading(true);
 
             // adding responses for that quiz in firebase db
-            const usersDbRef = firebase.app().database().ref('users/');
+            const usersDbRef = firebase.app().database().ref('assignmentusers/');
             usersDbRef
                 .child(loggedUserId + "/quizResponses/" + quizId)
                 .set({

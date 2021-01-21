@@ -26,7 +26,7 @@ export default function MyQuizes({ navigation }) {
         const loggedUserId = await AsyncStorage.getItem('loggedUserId');
         if (loggedUserId) {
             console.log("user is",loggedUserId);
-            const quizesDbRef = firebase.app().database().ref('quizes/');
+            const quizesDbRef = firebase.app().database().ref('assignmentquizes/');
             quizesDbRef
             .on('value',
             function(resp){

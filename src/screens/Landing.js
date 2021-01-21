@@ -47,7 +47,7 @@ export default function Landing({ navigation }) {
                     <ActivityIndicator style={styles.loader} />
                     :
                     <>
-                        <Text style={styles.title}>Quizmania</Text>
+                        <Text style={styles.title}>After Class Assignment</Text>
                         <View style={styles.divider}></View>
                         <BasicButton
                             text="Login"

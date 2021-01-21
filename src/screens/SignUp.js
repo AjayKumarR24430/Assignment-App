@@ -57,7 +57,7 @@ export default class SignUp extends ValidationComponent {
                         const email = this.state.email;
                         const ageGroup = this.state.ageGroup;
 
-                        const usersDbRef = firebase.app().database().ref('users/');
+                        const usersDbRef = firebase.app().database().ref('assignmentusers/');
                         usersDbRef
                             .child(userId)
                             .set({

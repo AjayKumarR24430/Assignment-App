@@ -25,7 +25,7 @@ export default function UserHome({ navigation }) {
     async function fetchUsersQuizes() {
         const loggedUserId = await AsyncStorage.getItem('loggedUserId');
         if (loggedUserId) {
-            const quizesDbRef = firebase.app().database().ref('quizes/');
+            const quizesDbRef = firebase.app().database().ref('assignmentquizes/');
             quizesDbRef
                 .once('value')
                 .then(resp => {

@@ -36,7 +36,7 @@ export default function QuizDetails({
         console.log("hello");
         if (quizId) {
             console.log();
-            const quizDbRef = firebase.app().database().ref('quizes/');            
+            const quizDbRef = firebase.app().database().ref('assignmentquizes/');            
             quizDbRef
                 .child(quizId + "/questions")
                 .on('value',

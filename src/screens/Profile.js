@@ -49,7 +49,7 @@ export default function Profile() {
     async function fetchUsersData() {
         const loggedUserId = await AsyncStorage.getItem('loggedUserId');
         if (loggedUserId) {
-            const usersDbRef = firebase.app().database().ref('users/');
+            const usersDbRef = firebase.app().database().ref('assignmentusers/');
             usersDbRef
                 .child(loggedUserId)
                 .once('value')
@@ -187,7 +187,7 @@ export default function Profile() {
 
     //function to update user profile data in firebase db
     function updateProfileInFirebase(loggedUserId, imageUploadUrl) {
-        const usersDbRef = firebase.app().database().ref('users/');
+        const usersDbRef = firebase.app().database().ref('assignmentusers/');
         usersDbRef
             .child(loggedUserId)
             .update({

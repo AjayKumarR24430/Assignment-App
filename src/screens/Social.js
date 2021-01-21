@@ -26,7 +26,7 @@ export default function Social({ navigation }) {
     async function fetchUsersQuizes() {
         const loggedUserId = await AsyncStorage.getItem('loggedUserId');
         if (loggedUserId) {
-            const quizesDbRef = firebase.app().database().ref('quizes/');
+            const quizesDbRef = firebase.app().database().ref('assignmentquizes/');
             quizesDbRef
                 .once('value')
                 .then(resp => {
@@ -61,7 +61,7 @@ export default function Social({ navigation }) {
         console.log("fetchUsers");
         const loggedUserId = await AsyncStorage.getItem('loggedUserId');
         if (loggedUserId) {
-            const quizesDbRef = firebase.app().database().ref('users/');
+            const quizesDbRef = firebase.app().database().ref('assignmentusers/');
             quizesDbRef
                 .once('value')
                 .then(resp => {
