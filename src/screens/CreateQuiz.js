@@ -186,7 +186,7 @@ export default function CreateQuiz({ navigation }) {
                     :
                     <ScrollView style={styles.container}>
                         <View style={styles.form}>
-                            <Text style={styles.label}>Quiz Image</Text>
+                            <Text style={styles.label}>Topic Image</Text>
                             <Image source={quizImgUri} style={styles.image} />
                             <View style={styles.divider}></View>
                             <BasicButton
@@ -195,7 +195,7 @@ export default function CreateQuiz({ navigation }) {
                             />
                             <View style={styles.divider}></View>
 
-                            <Text style={styles.label}>Quiz Name</Text>
+                            <Text style={styles.label}>Topic Name</Text>
                             <TextInput
                                 style={styles.inputField}
                                 placeholder="Give a name to your quiz"
@@ -206,7 +206,7 @@ export default function CreateQuiz({ navigation }) {
                             />
                             <View style={styles.divider}></View>
 
-                            <Text style={styles.label}>Quiz Type</Text>
+                            <Text style={styles.label}>Question Type</Text>
                             <Picker
                                 style={styles.inputField}
                                 selectedValue={quizType}
@@ -227,7 +227,7 @@ export default function CreateQuiz({ navigation }) {
                             <TextInput
                                 style={styles.inputField}
                                 multiline
-                                placeholder="What describes your Quiz?"
+                                placeholder="What describes your topic?"
                                 value={quizDesc}
                                 onChangeText={(val) => setQuizDesc(val)}
                             />

@@ -101,7 +101,7 @@ export default function MyQuizes({ navigation }) {
                         }
 
                         <TouchableOpacity style={styles.addNewBtn} onPress={handleAddNewQuizBtnClick}>
-                            <Text style={styles.addNewBtnText}>+ Add new quiz</Text>
+                            <Text style={styles.addNewBtnText}>+ Add new topic for questions</Text>
                         </TouchableOpacity>
                     </ScrollView >
             }

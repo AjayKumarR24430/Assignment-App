@@ -32,13 +32,6 @@ export default function AddQuizQstn({ route: {
                 .child(quizId + "/questions/" + qstnId)
                 .set({
                     question: qstn,
-                    answer: [
-                        {
-                            answerId: qstnId + "_crctanswer",
-                            answer: correctAnswer,
-                            isAns: true
-                        },
-                    ]
                 },
                     (error) => {
                         setIsLoading(false);
@@ -75,14 +68,6 @@ export default function AddQuizQstn({ route: {
                         <View style={styles.divider}></View>
                         <View style={styles.divider}></View>
 
-                        <Text style={styles.label}>Correct Answer</Text>
-                        <TextInput
-                            style={styles.inputField}
-                            placeholder="Correct answer"
-                            value={correctAnswer}
-                            onChangeText={(val) => setCorrectAnswer(val)}
-                        />
-                        <View style={styles.divider}></View>
 
                         <View style={styles.btnsContainer}>
                             <BasicButton

@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import firebase from '../FirebaseConfig';
 
 import BasicButton from "../components/BasicButton";
+import SnackBar from "../components/SnackBar";
 
 export default function GiveQuiz({ route: {
     params: {
@@ -24,8 +25,11 @@ export default function GiveQuiz({ route: {
 
     const [isLoading, setIsLoading] = useState(true);
     const [typedAnswer, updateAns] = useState("");
-    const [bool, setValue] = useState(false);
-    const [CorrectAns, setCorrect] = useState("");
+    const [answers, setAnswers] = useState("");
+
+    const [snackBarVisible, setSnackBarVisible] = useState(false);
+    const [snackBarText, setSnackBarText] = useState("");
+    const [snackBarType, setSnackBarType] = useState("");
 
     useEffect(() => {
         if (questions) {
@@ -33,13 +37,37 @@ export default function GiveQuiz({ route: {
             let qstns = [];
             for (const qstnId in questions) {
                 let qstn = questions[qstnId];
-                let answer = qstn.answer;
-                qstn["answer"] = answer;
                 qstn["questionId"] = qstnId;
                 qstns.push(qstn);
             }
             setQuizQsnts(qstns);
             setIsLoading(false);
+            const quizDbRef = firebase.app().database().ref('assignmentquizes/');
+            quizDbRef
+                    .child(quizId + "/answers")
+                    .on('value',
+                        function(snap) {
+                            const answers = snap.val();
+                            console.log(snap);
+                            if (answers) {
+                                let quizAnswers = [];
+                                for (const key in answers) {
+                                    const answer = answers[key];
+                                    const answerTitle = answer.answer;
+
+                                    quizAnswers.push(answerTitle);
+                                }
+                                setAnswers(quizAnswers);
+                            }
+                            setIsLoading(false);
+                        },
+                        error => {
+                            displaySnackBar("error", "Failed to get previous answer");
+                        });
+
+        }
+        else{
+            console.log(quizId, questions);
         }
     }, []);
 
@@ -47,19 +75,6 @@ export default function GiveQuiz({ route: {
     function renderQuestion() {
         if (questions) {
             const selectedQuestion = quizQsnts[activeQstnIdx] || {};
-            const answer = selectedQuestion.answer || '';
-
-            function correctAnswer(){
-                console.log("Answer check")
-                if(selectedQuestion.answer){
-                console.log("Answer is ", answer[0]['answer'])
-                setCorrect(answer[0]['answer'])
-                }
-                else{
-                    console.log("Answer is empty ")
-                }
-                setValue(true)
-            }
 
             //rendering
             return (
@@ -75,18 +90,46 @@ export default function GiveQuiz({ route: {
                             value={typedAnswer}
                             onChangeText= {(val) => updateAns(val)}
                         />
+                        <BasicButton 
+                            text="Add your answer"
+                            onPress={addAnswer}/>
                     </View>
                     <View>
-                    <BasicButton
-                        text="Check Answer"
-                        onPress={() => correctAnswer()}
-                        />  
+                        <Text style={{fontSize:20, marginTop:20}}>Previous Answers:</Text>
                     </View>
-                    <View>
-                        {
-                            bool &&
-                            <Text style={{marginTop: 20, marginBottom: 20}}>Correct Answer is: {CorrectAns}</Text>                         
-                        }
+                    <View style={styles.ansContainer}>
+                    {
+                        // isLoading ?
+                        // <View>
+                        //     <ActivityIndicator style={styles.loader} />
+                        // </View>                            
+                        //     :      
+                        answers ?
+                            answers.map((item, idx) => {
+                                return(
+                                    <View style={styles.ans} key={idx}>
+                                        <Text style={styles.ansText}>{idx + 1 + ". " + item}</Text>                                        
+                                    </View>
+                                )
+                            })
+                            :
+                            <View>
+                                <Text style={{marginLeft: -5}}>
+                                Not yet answered!
+                                Be the first one to answer!
+                                </Text>
+                            </View>
+                    }
+                    {
+                        snackBarVisible ?
+                            <SnackBar
+                                isVisible={snackBarVisible}
+                                text={snackBarText}
+                                type={snackBarType}
+                                onClose={hideSnackBar}
+                            />
+                            : null
+                    }
                     </View>
 
                     <View style={[styles.container, styles.btnsContainer]}>
@@ -97,6 +140,17 @@ export default function GiveQuiz({ route: {
         }
     }
 
+    //function to display snackbar
+    function displaySnackBar(type, text) {
+        setSnackBarType(type);
+        setSnackBarText(text);
+        setSnackBarVisible(true);
+    }
+
+    //function to hide snackbar
+    function hideSnackBar() {
+        setSnackBarVisible(false);
+    }
 
     //function to render direction buttons
     function renderDirectionButtons() {
@@ -119,6 +173,48 @@ export default function GiveQuiz({ route: {
             </>
         )
     }
+
+    function addAnswer(){
+        const timeStamp = Math.floor(Date.now() / 1000);
+            const ansId = quizId + "_ans_" + timeStamp;
+            const quizDbRef = firebase.app().database().ref('assignmentquizes/');
+            if(typedAnswer!= ""){
+                quizDbRef
+                    .child(quizId + "/answers/" + ansId)
+                    .set({
+                        answer: typedAnswer,
+                    },
+                        (error) => {
+                            setIsLoading(false);
+                        });
+                displaySnackBar("success", "Answer added successfully")
+                quizDbRef
+                    .child(quizId + "/answers")
+                    .on('value',
+                        function(snap) {
+                            const answers = snap.val();
+                            console.log(snap);
+                            if (answers) {
+                                let quizAnswers = [];
+                                for (const key in answers) {
+                                    const answer = answers[key];
+                                    const answerTitle = answer.answer;
+
+                                    quizAnswers.push(answerTitle);
+                                }
+                                setAnswers(quizAnswers);
+                            }
+                            setIsLoading(false);
+                        },
+                        error => {
+                            displaySnackBar("error", "Failed to get previous answer");
+                        });
+                updateAns("")
+            }
+            else
+            displaySnackBar("error", "Please type in the answer")
+    }
+
 
     //function to handle when submit btn is pressed on
     async function handleSubmitBtnClick() {
@@ -145,22 +241,19 @@ export default function GiveQuiz({ route: {
                             navigation.goBack();
                         }
                     });
-
         }
     }
 
     //function to handle next/prev btn click
     function hanldePrevBtnClick() {
-        setCorrect("");
-        setValue(false);
+        updateAns("")
         if (activeQstnIdx > 0) {
             setActiveQstnIdx(activeQstnIdx - 1);
         }
     }
 
     function hanldeNextBtnClick() {
-        setCorrect("");
-        setValue(false);
+        updateAns("")
         if (activeQstnIdx < totalQstnsCount - 1) {
             setActiveQstnIdx(activeQstnIdx + 1);
         }
@@ -316,5 +409,23 @@ const styles = StyleSheet.create({
     disabledButton: {
         width: "43%",
         backgroundColor: "grey",
+    },
+    ansContainer: {
+        // backgroundColor: "#f1f1f1",
+        padding: 5,
+    },
+
+    ans: {
+        padding: 10,
+        backgroundColor: 'rgba(113, 205, 220, 0.3)',
+        marginVertical: 5,
+        borderRadius: 8,
+        flexDirection: "row",
+        alignItems: "center",
+    },
+
+    ansText: {
+        fontWeight: '500',
+        fontSize: 16,
     }
 });

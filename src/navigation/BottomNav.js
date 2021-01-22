@@ -23,10 +23,10 @@ export default function BottomNav() {
                 }}
             />
             <Tab.Screen
-                name="My Quizzes"
+                name="My Topics"
                 component={MyQuizStack}
                 options={{
-                    tabBarLabel: 'My Quizzes',
+                    tabBarLabel: 'My Topics',
                     tabBarColor: '#1f65ff',
                     tabBarIcon: ({ color }) => (
                         <Icon name="ios-document" color={color} size={26} />
