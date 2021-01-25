@@ -44,26 +44,26 @@ export default function GiveQuiz({ route: {
             setIsLoading(false);
             const quizDbRef = firebase.app().database().ref('assignmentquizes/');
             quizDbRef
-                    .child(quizId + "/answers")
-                    .on('value',
-                        function(snap) {
-                            const answers = snap.val();
-                            console.log(snap);
-                            if (answers) {
-                                let quizAnswers = [];
-                                for (const key in answers) {
-                                    const answer = answers[key];
-                                    const answerTitle = answer.answer;
+                .child(quizId +"/question" + activeQstnIdx + "/answers")
+                .on('value',
+                    function(snap) {
+                        const answers = snap.val();
+                        console.log(snap);
+                        if (answers) {
+                            let quizAnswers = [];
+                            for (const key in answers) {
+                                const answer = answers[key];
+                                const answerTitle = answer.answer;
 
-                                    quizAnswers.push(answerTitle);
-                                }
-                                setAnswers(quizAnswers);
+                                quizAnswers.push(answerTitle);
                             }
-                            setIsLoading(false);
-                        },
-                        error => {
-                            displaySnackBar("error", "Failed to get previous answer");
-                        });
+                            setAnswers(quizAnswers);
+                        }
+                        setIsLoading(false);
+                    },
+                    error => {
+                        displaySnackBar("error", "Failed to get previous answer");
+                    });
 
         }
         else{
@@ -180,7 +180,7 @@ export default function GiveQuiz({ route: {
             const quizDbRef = firebase.app().database().ref('assignmentquizes/');
             if(typedAnswer!= ""){
                 quizDbRef
-                    .child(quizId + "/answers/" + ansId)
+                    .child(quizId +"/question" + activeQstnIdx + "/answers/" + ansId)
                     .set({
                         answer: typedAnswer,
                     },
@@ -189,7 +189,7 @@ export default function GiveQuiz({ route: {
                         });
                 displaySnackBar("success", "Answer added successfully")
                 quizDbRef
-                    .child(quizId + "/answers")
+                    .child(quizId +"/question" + activeQstnIdx + "/answers")
                     .on('value',
                         function(snap) {
                             const answers = snap.val();
@@ -247,15 +247,67 @@ export default function GiveQuiz({ route: {
     //function to handle next/prev btn click
     function hanldePrevBtnClick() {
         updateAns("")
+        console.log(activeQstnIdx);
         if (activeQstnIdx > 0) {
-            setActiveQstnIdx(activeQstnIdx - 1);
+            let num= activeQstnIdx - 1;
+            console.log(num)
+            setActiveQstnIdx(num);
+            console.log(activeQstnIdx);
+            const quizDbRef = firebase.app().database().ref('assignmentquizes/');
+            quizDbRef
+                    .child(quizId +"/question" + num + "/answers")
+                    .on('value',
+                        function(snap) {
+                            const answers = snap.val();
+                            console.log(snap);
+                            if (answers) {
+                                let quizAnswers = [];
+                                for (const key in answers) {
+                                    const answer = answers[key];
+                                    const answerTitle = answer.answer;
+
+                                    quizAnswers.push(answerTitle);
+                                }
+                                setAnswers(quizAnswers);
+                            }
+                            setIsLoading(false);
+                        },
+                        error => {
+                            displaySnackBar("error", "Failed to get previous answer");
+                        });
         }
     }
 
     function hanldeNextBtnClick() {
         updateAns("")
+        console.log(activeQstnIdx);
         if (activeQstnIdx < totalQstnsCount - 1) {
-            setActiveQstnIdx(activeQstnIdx + 1);
+            let num= activeQstnIdx + 1;
+            console.log(num)
+            setActiveQstnIdx(num);
+            console.log(activeQstnIdx);
+            const quizDbRef = firebase.app().database().ref('assignmentquizes/');
+            quizDbRef
+                .child(quizId +"/question" + num + "/answers")
+                .on('value',
+                    function(snap) {
+                        const answers = snap.val();
+                        console.log(snap);
+                        if (answers) {
+                            let quizAnswers = [];
+                            for (const key in answers) {
+                                const answer = answers[key];
+                                const answerTitle = answer.answer;
+
+                                quizAnswers.push(answerTitle);
+                            }
+                            setAnswers(quizAnswers);
+                        }
+                        setIsLoading(false);
+                    },
+                    error => {
+                        displaySnackBar("error", "Failed to get previous answer");
+                    });
         }
     }
 
