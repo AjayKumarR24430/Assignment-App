@@ -18,8 +18,6 @@ export default function Profile() {
     const [givenQuizCount, setGivenQuizCount] = useState(null);
     const [performanceData, setPerformanceData] = useState({
         "total": 0,
-        "correct": 0,
-        "incorrect": 0,
     });
 
     const [hasImageUploaded, setHasImageUploaded] = useState(false);
@@ -58,8 +56,6 @@ export default function Profile() {
                     if (response) {
                         //for getting performance pie chart
                         let total = 0;
-                        let correct = 0;
-                        let incorrect = 0;
 
                         const quizResponses = response.quizResponses || {};
 
@@ -75,13 +71,8 @@ export default function Profile() {
                             total += tempTotal;
                             for (const questionId in responses) {
                                 const ansResponse = responses[questionId];
-                                const isCorrect = ansResponse["isCorrect"];
-                                if (isCorrect) {
-                                    correct++;
-                                }
                             }
                         }
-                        incorrect = total - correct;
 
                         //updating state
                         setName(response.name);
@@ -91,8 +82,6 @@ export default function Profile() {
                         setGivenQuizCount(tempGivenQuiz);
                         setPerformanceData({
                             total,
-                            correct,
-                            incorrect,
                         });
 
                         if (response.profilePicUri) {

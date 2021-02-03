@@ -374,7 +374,7 @@ const styles = StyleSheet.create({
 
     image: {
         position: 'absolute',
-        top: 60,
+        top: 90,
         left: 0,
         right: 0,
         alignSelf: "center",
