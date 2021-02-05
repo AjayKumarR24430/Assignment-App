@@ -98,12 +98,7 @@ export default function GiveQuiz({ route: {
                         <Text style={{fontSize:20, marginTop:20}}>Previous Answers:</Text>
                     </View>
                     <View style={styles.ansContainer}>
-                    {
-                        // isLoading ?
-                        // <View>
-                        //     <ActivityIndicator style={styles.loader} />
-                        // </View>                            
-                        //     :      
+                    {    
                         answers ?
                             answers.map((item, idx) => {
                                 return(

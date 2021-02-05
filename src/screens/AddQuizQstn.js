@@ -15,7 +15,6 @@ export default function AddQuizQstn({ route: {
     const [isLoading, setIsLoading] = useState(false);
 
     const [qstn, setQstn] = useState("");
-    const [correctAnswer, setCorrectAnswer] = useState("");
 
     //function to handle when add btn clicked on
     function hanldeAddBtnClick() {
